@@ -73,6 +73,23 @@ async function run() {
             res.json(result);
         });
 
+        // Orders- POST API to find data by email
+        app.post('/orders/by-email', async (req, res) => {
+            const userEmail = req.body;
+            const query = { email: { $in: userEmail } };
+            const ordersByUser = await ordersCollection.find(query).toArray();
+            res.json(ordersByUser);
+        })
+
+        // Orders- DELETE API
+        app.delete('/orders/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await ordersCollection.deleteOne(query);
+
+            res.json(result);
+        })
+
 
 
         
